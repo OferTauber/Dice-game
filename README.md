@@ -12,6 +12,11 @@ The project was written after about a week of studying the technology, and does 
 4. If the result of the dice roll is 6-6 the player loses all the "current" score and the turn passes to the opponent.
 5. A player who managed to reach exactly the target score - wins. A player who has passed the target score - loses.
 
+## Screenshots
+
+![App Screenshot](./public/screenshots/Snapshot_dec_init.png)
+![App Screenshot](./public/screenshots/Snapshot_dec_game.png)
+
 # Component structure:
 
 Main - Holds almost all the information and manages the game. All the methods that change the state of Main are transferred while creating a "closure" to the component (using that = this) - so that children have the ability to influence the parent.
