@@ -2,10 +2,22 @@ import './main.css';
 import React from 'react';
 import Player from '../player/player';
 import Controllers from '../controllers/constrollers';
-// import Dice from './dice';
-// import Button from './button';
+import Message from '../message/message';
 
 export default class Main extends React.Component {
+  state = {
+    totalScore: [0, 0],
+    currentScore: [0, 0],
+    activePlayer: 0,
+    gameIsOn: true,
+    targetScore: 100,
+    holdInactive: true,
+    displayMessage: true,
+    winner: [false, false],
+    playerMessage: [false, false],
+    initialActivation: true,
+  };
+
   newGame() {
     const that = this;
     return () => {
@@ -14,7 +26,10 @@ export default class Main extends React.Component {
         currentScore: [0, 0],
         activePlayer: 0,
         gameIsOn: true,
-        valueForWinning: 100,
+        holdInactive: true,
+        winner: [false, false],
+        playerMessage: [false, false],
+        displayMessage: true,
       });
     };
   }
@@ -33,6 +48,17 @@ export default class Main extends React.Component {
     };
   }
 
+  captureTargetScore() {
+    const that = this;
+    return (targetScore) => {
+      that.setState({
+        targetScore: targetScore,
+        displayMessage: false,
+        initialActivation: false,
+      });
+    };
+  }
+
   handelRoll(res) {
     this.setState({ holdInactive: false });
 
@@ -40,27 +66,57 @@ export default class Main extends React.Component {
       this.ziroCurrentScore();
       this.switchTurn();
     } else {
+      this.updateCurrentScore(res);
     }
   }
 
-  handelHold() {
-    console.log('Hold!');
-    this.updateTotalScores();
-    if (
-      this.state.totalScore[this.state.activePlayer] <
-      this.state.valueForWinning
-    ) {
-      this.switchTurn();
-    } else if (
-      this.state.totalScore[this.state.activePlayer] ===
-      this.state.valueForWinning
-    ) {
-      // todo handel winning
-      console.log(`player ${this.state.activePlayer + 1} wins!`);
-    } else {
-      // todo handel loose
-      console.log(`player ${this.state.activePlayer + 1} Losse!`);
+  async handelHold() {
+    try {
+      const newScore = (await this.updateTotalScores()) * 1;
+
+      console.log(newScore, this.state.targetScore);
+
+      if (newScore < this.state.targetScore) {
+        this.switchTurn();
+      } else if (newScore === this.state.targetScore) {
+        this.gameWin();
+      } else {
+        this.gameLoose();
+      }
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  gameWin() {
+    const winnerPlayer = this.state.activePlayer;
+
+    const winner = [false, false];
+    winner[winnerPlayer] = true;
+    const massege = [false, false];
+    massege[winnerPlayer] = 'You Win!';
+
+    this.setState({
+      winner: winner,
+      gameIsOn: false,
+      holdInactive: true,
+      playerMessage: massege,
+    });
+  }
+  gameLoose() {
+    const winnerPlayer = this.state.activePlayer;
+
+    const winner = [true, true];
+    winner[winnerPlayer] = false;
+    const massege = ['You Win!', 'You Win!'];
+    massege[winnerPlayer] = `Passed the trget score`;
+
+    this.setState({
+      winner: winner,
+      gameIsOn: false,
+      holdInactive: true,
+      playerMessage: massege,
+    });
   }
 
   switchTurn() {
@@ -74,6 +130,15 @@ export default class Main extends React.Component {
     this.setState({ currentScore: [0, 0] });
   }
 
+  updateCurrentScore(res) {
+    const currentScore = [...this.state.currentScore];
+    const activePlayer = this.state.activePlayer;
+
+    currentScore[activePlayer] += res[0] + res[1];
+
+    this.setState({ currentScore: currentScore });
+  }
+
   updateTotalScores() {
     const totalScore = [...this.state.totalScore];
     const currentScore = [...this.state.currentScore];
@@ -83,16 +148,9 @@ export default class Main extends React.Component {
 
     this.setState({ totalScore: totalScore });
     this.ziroCurrentScore();
-  }
 
-  state = {
-    totalScore: [3, 15],
-    currentScore: [15, 0],
-    activePlayer: 0,
-    gameIsOn: true,
-    valueForWinning: 100,
-    holdInactive: true,
-  };
+    return totalScore[this.state.activePlayer];
+  }
 
   render() {
     return (
@@ -103,22 +161,35 @@ export default class Main extends React.Component {
             totalScore={this.state.totalScore[0]}
             currentScore={this.state.currentScore[0]}
             active={this.state.activePlayer === 0}
+            isWinner={this.state.winner[0]}
+            massege={this.state.playerMessage[0]}
           />
           <Player
             playerId={1}
             totalScore={this.state.totalScore[1]}
             currentScore={this.state.currentScore[1]}
             active={this.state.activePlayer === 1}
+            isWinner={this.state.winner[1]}
+            massege={this.state.playerMessage[1]}
           />
         </main>
-        <Controllers
-          callbacks={{
-            newGame: this.newGame(),
-            passRollToMain: this.captureRollResult(),
-            passHoldToMain: this.captureHoldClick(),
-          }}
-          holdInactive={this.state.holdInactive}
-        />
+        {!this.state.displayMessage && (
+          <Controllers
+            callbacks={{
+              newGame: this.newGame(),
+              passRollToMain: this.captureRollResult(),
+              passHoldToMain: this.captureHoldClick(),
+            }}
+            holdInactive={this.state.holdInactive}
+            gameIsOn={this.state.gameIsOn}
+          />
+        )}
+        {this.state.displayMessage && (
+          <Message
+            newGameFunc={this.captureTargetScore()}
+            displayWelcome={this.state.initialActivation}
+          />
+        )}
       </>
     );
   }

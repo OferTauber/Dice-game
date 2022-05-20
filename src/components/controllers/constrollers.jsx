@@ -13,7 +13,6 @@ export default class Controllers extends Component {
   diceArr = [null, dice1, dice2, dice3, dice4, dice5, dice6];
 
   rollDice() {
-    // 1. Generating a random dice roll
     const dice = [
       Math.trunc(Math.random() * 6) + 1,
       Math.trunc(Math.random() * 6) + 1,
@@ -44,9 +43,11 @@ export default class Controllers extends Component {
         />
 
         <button
-          className="btn btn--roll"
+          className={`btn btn--roll ${!this.props.gameIsOn && 'inactive'}`}
           onClick={() => {
-            this.rollDice();
+            if (this.props.gameIsOn) {
+              this.rollDice();
+            }
           }}
         >
           🎲 Roll dice

@@ -7,7 +7,7 @@ export default class Player extends React.Component {
       <section
         className={`player player--${this.props.playerId} ${
           this.props.active && 'player--active'
-        }`}
+        } ${this.props.isWinner && 'player--winner'}`}
       >
         <h2 className="name" id="name--0">
           {`Player ${this.props.playerId + 1}`}
@@ -15,6 +15,9 @@ export default class Player extends React.Component {
         <p className="score" id="score--0">
           {this.props.totalScore}
         </p>
+        <div>
+          <p className="player-massege">{this.props.massege}</p>
+        </div>
         <div className="current">
           <p className="current-label">Current</p>
           <p className="current-score" id="current--0">
