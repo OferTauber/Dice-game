@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# Dice game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+I'm excited to present the first project I wrote using ReactJS!
 
-## Available Scripts
+The project was written after about a week of studying the technology, and does not use the "hooks" system - all functions and data are processed from the parent component in "drilling down".
 
-In the project directory, you can run:
+# Rules of the Game:
 
-### `npm start`
+1. In his turn - a player must roll the dice at least once.
+2. The result of the dice roll is saved in "Current"
+3. The player can choose whether to end the turn and take the score he has accumulated in "current" (and add it to his total score) or throw the cube again and accumulate more points for "current"
+4. If the result of the dice roll is 6-6 the player loses all the "current" score and the turn passes to the opponent.
+5. A player who managed to reach exactly the target score - wins. A player who has passed the target score - loses.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Component structure:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Main - Holds almost all the information and manages the game. All the methods that change the state of Main are transferred while creating a "closure" to the component (using that = this) - so that children have the ability to influence the parent.
+Player - Displays the latest data of each player (as updated in Main). The component does not store or manage information, but only responds to the changes dictated by Main
+Controllers - Receives the callbakces from Main, thus updating it. The only significant functionality is the cube, and the component only conveys the random value obtained.
+Message - Verifies that the target score selected by the user is valid and then transfers it to Main.
 
-### `npm test`
+# Design:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The game design is based on a similar game, from the course "The Complete JavaScript Course 2022: From Zero to Expert!", By Jonas Schmedtmann - which I highly recommend!
+I wrote the original version as part of the above course at vanillaJS. For the purpose of this project I created from scratch all the logic, added the existing design to it and turned it into a mobile-responsive one.
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+HTML
+CSS
+JS
+React
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Acknowledgements
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- [Jonas Schmedtmann](https://www.udemy.com/user/jonasschmedtmann/)
+  Jonas's corse:
+  [The Complete JavaScript Course 2022: From Zero to Expert!](https://www.udemy.com/course/the-complete-javascript-course/)
 
-### `npm run eject`
+## Demo
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+https://ofer-dice-game.netlify.app

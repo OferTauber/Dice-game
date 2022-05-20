@@ -78,3 +78,13 @@
   font-weight: 700;
   color: #c7365f;
 }
+
+@media (max-width: 450px) {
+  .name {
+    font-size: calc(20vw - 90px + 4rem);
+  }
+  .current {
+    width: calc(40vw - 180px + 200px);
+    padding: calc(40vw - 180px + 2rem);
+  }
+}

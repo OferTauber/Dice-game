@@ -41,7 +41,29 @@ export default class Message extends Component {
 
 class Welcome extends Component {
   render() {
-    return <h2 className="welcome">Gane instructions</h2>;
+    return (
+      <div className="welcome">
+        <h2>Game Instructions:</h2>
+        <ul>
+          <li>
+            In your turn - roll the dice (at least once) and accumulate the
+            result in "current"
+          </li>
+          <li>
+            You can roll again or click "Hold" to save the points from "Current"
+            and end the turn.
+          </li>
+          <li>
+            Note! If you get 6-6 - you will lose all points from "current" and
+            the turn will go to your opponent.
+          </li>
+          <li>
+            If you managed to reach exactly the target score - you win! If you
+            passed it - you loose ...
+          </li>
+        </ul>
+      </div>
+    );
   }
 }
 

@@ -60,3 +60,19 @@
 .hidden {
   display: none;
 }
+
+@media (max-width: 800px) {
+  .dice {
+    height: 10rem;
+    height: calc(10vw - 80px + 10rem);
+  }
+  .btn {
+    font-size: calc(2.5vw - 20px + 1.8rem);
+    padding: 0.7rem 2.5rem;
+    padding: 0.7rem calc(2.5vw - 20px + 2.5rem);
+  }
+  .controllers {
+    height: 100%;
+    height: calc(40vw - 310px + 100%);
+  }
+}
