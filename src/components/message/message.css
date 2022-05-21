@@ -2,6 +2,7 @@
   background-image: linear-gradient(to right, #a27ca8 0%, #dd8f92 100%);
   position: absolute;
   height: 80vh;
+  min-height: 350px;
   width: 80vw;
   max-width: 900px;
   top: 10vh;
@@ -68,6 +69,6 @@
 
 @media (max-width: 450px) {
   .welcome ul li {
-    font-size: 130px;
+    font-size: 13px;
   }
 }
