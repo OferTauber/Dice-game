@@ -12,8 +12,6 @@ html {
 }
 
 body {
-  /* position: relative; */
-  /* top: 0; */
   font-family: 'Nunito', sans-serif;
   font-weight: 400;
   height: 100vh;
@@ -33,4 +31,22 @@ main {
   border-radius: 9px;
   margin: auto;
   display: flex;
+}
+
+@media (max-width: 450px) {
+  body::after {
+    content: '🔄 Please rotate your mobile device to horizontal view';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-image: linear-gradient(to top left, #753682 0%, #bf2e34 100%);
+    color: #333;
+    z-index: 10;
+    font-size: 30px;
+    font-weight: 600;
+    padding: 40vh 0;
+    text-align: center;
+  }
 }
